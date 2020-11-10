@@ -2,12 +2,14 @@ import numpy as np
 
 class GPSFilter:
     #Filter for ground truth gps data interpolation
-    def __init__(self, initial_estimate):
+    def __init__(self, initial_estimate, motion_coeff_path, rate = 25):
+        self.dt = 1/rate
+        self.ABC = np.genfromtxt(motion_coeff_path, delimiter=',')
         self.err_est = [0, 0]
         self.err_mea = [0, 0]
         self.est = [initial_estimate, None]
         self.KG = .5
-        self.system = np.array([]
+        self.system = self.ABC*np.array([[self.dt**3],[self.dt**3],[-self.dt**2],[1]]
         
     def update(self, mea = None):
         pass
